@@ -1,0 +1,710 @@
+/* Hytteboka: snow, pine, a red cabin, and gold for the weeks a winner is drawn for. */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  min-width: 0;
+}
+
+:root {
+  color-scheme: light;
+
+  --snow: oklch(97.5% 0.012 85);
+  --paper: oklch(99.5% 0.004 85);
+  --ink: oklch(28% 0.04 265);
+  --muted: color-mix(in oklch, var(--ink) 70%, var(--snow));
+  --line: color-mix(in oklch, var(--ink) 16%, var(--snow));
+  --line-strong: color-mix(in oklch, var(--ink) 45%, var(--snow));
+  --pine: oklch(45% 0.09 160);
+  --cabin: oklch(55% 0.17 30);
+  --gold: oklch(82% 0.14 88);
+  --sky: oklch(92% 0.035 235);
+  --night: oklch(25% 0.06 265);
+
+  --title: clamp(1.75rem, 1.3rem + 2vw, 2.75rem);
+  --gap: clamp(1rem, 0.7rem + 1.2vw, 1.75rem);
+  --radius: 0.75rem;
+  --ease-out: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  line-height: 1.5;
+  color: var(--ink);
+  background: var(--snow);
+
+  scrollbar-gutter: stable;
+  text-wrap: pretty;
+  overflow-wrap: break-word;
+  font-synthesis: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  margin: 0;
+  min-height: 100svh;
+}
+
+h1,
+h2 {
+  margin: 0;
+  font-family: var(--serif);
+  line-height: 1.15;
+  text-wrap: balance;
+}
+
+h1 { font-size: var(--title); }
+h2 { font-size: 1.35rem; }
+
+p,
+ul,
+ol {
+  margin: 0;
+}
+
+svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+input,
+select {
+  font: inherit;
+  font-size: max(16px, 1rem);
+  min-block-size: 2.75rem;
+  padding-block: 0.4rem;
+  padding-inline: 0.75rem;
+  color: inherit;
+  background: white;
+  border: 2px solid var(--line-strong);
+  border-radius: 0.6rem;
+}
+
+button,
+a {
+  touch-action: manipulation;
+}
+
+button {
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+a { color: inherit; }
+a:active { color: var(--cabin); }
+
+:focus-visible {
+  outline: max(2px, 0.08em) solid currentColor;
+  outline-offset: 0.25em;
+}
+
+[hidden] { display: none !important; }
+
+/* The frame of a page: one centred column with a gutter on each side. */
+
+.page {
+  --gutter: 1rem;
+  display: grid;
+  grid-template-columns:
+    minmax(var(--gutter), 1fr)
+    [content-start] min(100% - var(--gutter) * 2, 68rem) [content-end]
+    minmax(var(--gutter), 1fr);
+  grid-template-rows: auto 1fr auto;
+}
+
+.page > * { grid-column: content; }
+
+.top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.5rem 1.5rem;
+  padding-block: 1rem;
+}
+
+.brand {
+  font-family: var(--serif);
+  font-size: 1.35rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.brand span {
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-size: 0.9rem;
+  font-weight: 400;
+  color: var(--muted);
+  margin-inline-start: 0.4rem;
+}
+
+.who {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.25rem 0.75rem;
+  margin-inline-start: auto;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap);
+  padding-block-end: 3rem;
+}
+
+.lead {
+  max-inline-size: 60ch;
+  font-size: 1.1rem;
+}
+
+.bottom {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.5rem;
+  padding-block: 1.5rem;
+  color: var(--muted);
+  border-block-start: 1px solid var(--line);
+}
+
+/* Buttons */
+
+.button {
+  --fill: var(--pine);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-block-size: 2.75rem;
+  padding-block: 0.4rem;
+  padding-inline: 1.15rem;
+  font: inherit;
+  font-weight: 600;
+  color: white;
+  text-decoration: none;
+  background: var(--fill);
+  border: 2px solid var(--fill);
+  border-radius: 99rem;
+  cursor: pointer;
+}
+
+.button:active {
+  color: white;
+  transform: scale(0.97);
+}
+
+.button:focus-visible {
+  outline: 3px solid var(--fill);
+  outline-offset: 2px;
+}
+
+.button--quiet {
+  color: var(--ink);
+  background: transparent;
+  border-color: var(--line-strong);
+}
+
+.button--quiet:active { color: var(--ink); }
+.button--quiet:focus-visible { outline-color: var(--ink); }
+
+.button:disabled {
+  opacity: 0.6;
+  cursor: progress;
+}
+
+.link {
+  position: relative;
+  padding: 0;
+  font: inherit;
+  color: inherit;
+  text-decoration: underline;
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+/* A target a thumb can hit, around a button that looks like a link. */
+.link::after {
+  content: "";
+  position: absolute;
+  inset: min(0px, (100% - 44px) / 2);
+}
+
+.link:active { color: var(--cabin); }
+
+@media (prefers-reduced-motion: no-preference) {
+  .button {
+    transition:
+      transform 160ms var(--ease-out),
+      background-color 160ms var(--ease-out);
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .button:hover {
+    background: color-mix(in oklch, var(--fill), black 15%);
+  }
+
+  .button--quiet:hover {
+    background: color-mix(in oklch, var(--ink) 8%, transparent);
+  }
+
+  .link:hover,
+  a:hover {
+    text-decoration-thickness: 2px;
+  }
+}
+
+/* The calendar */
+
+.hero {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem 2rem;
+  padding: var(--gap);
+  background: var(--sky);
+  border-radius: calc(var(--radius) * 2);
+}
+
+.hero-art {
+  flex-basis: 14rem;
+  flex-grow: 1;
+  max-inline-size: 22rem;
+}
+
+.hero-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  flex-basis: 0;
+  flex-grow: 999;
+  min-inline-size: 55%;
+}
+
+.hero-text p {
+  max-inline-size: 52ch;
+  font-size: 1.1rem;
+}
+
+.art-far { fill: color-mix(in oklch, var(--night) 55%, var(--sky)); }
+.art-near { fill: color-mix(in oklch, var(--night) 30%, var(--sky)); }
+.art-snow { fill: var(--paper); }
+.art-tree { fill: var(--pine); }
+.art-wall { fill: var(--cabin); }
+.art-roof { fill: var(--night); }
+.art-window { fill: var(--gold); }
+
+.message {
+  padding-block: 0.75rem;
+  padding-inline: 1rem;
+  font-weight: 600;
+  background: color-mix(in oklch, var(--cabin) 12%, var(--paper));
+  border-inline-start: 0.3rem solid var(--cabin);
+  border-radius: 0.5rem;
+}
+
+.who-are-you {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1.25rem;
+  background: var(--paper);
+  border: 2px solid var(--pine);
+  border-radius: var(--radius);
+}
+
+.who-are-you label {
+  font-family: var(--serif);
+  font-size: 1.35rem;
+  font-weight: 700;
+}
+
+.field-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.field-row input {
+  flex-basis: 0;
+  flex-grow: 999;
+  min-inline-size: 50%;
+}
+
+.field-row .button { flex-grow: 1; }
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 1.5rem;
+  padding: 0;
+  list-style: none;
+  color: var(--muted);
+}
+
+.legend li {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.legend li::before {
+  content: "";
+  flex: none;
+  inline-size: 0.9rem;
+  block-size: 0.9rem;
+  background: var(--state);
+  border-radius: 50%;
+}
+
+.legend--free,
+.week--free { --state: var(--pine); }
+
+.legend--booked,
+.week--booked { --state: color-mix(in oklch, var(--ink) 40%, var(--snow)); }
+
+.legend--draw,
+.week--draw,
+.week--drawn { --state: var(--gold); }
+
+.month {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.weeks {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 14rem), 1fr));
+  gap: 0.75rem;
+  padding: 0;
+  list-style: none;
+}
+
+.week {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  padding-block: 0.8rem 1rem;
+  padding-inline: 1rem;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-block-start: 0.35rem solid var(--state);
+  border-radius: var(--radius);
+  scroll-margin-block: 1rem;
+}
+
+.week--booked {
+  color: var(--muted);
+  background: color-mix(in oklch, var(--ink) 5%, var(--snow));
+}
+
+.week--draw,
+.week--drawn {
+  background: color-mix(in oklch, var(--gold) 16%, var(--paper));
+}
+
+.week--mine {
+  color: var(--ink);
+  background: oklch(95% 0.045 160);
+  border-color: var(--pine);
+}
+
+/* The week someone was just sent back to, after they changed something on it. */
+.week:target {
+  box-shadow: 0 0 0 0.25rem color-mix(in oklch, var(--cabin) 45%, transparent);
+}
+
+.week-when {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  column-gap: 0.6rem;
+}
+
+.week-when strong {
+  font-size: 1.2rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.week-when span { color: var(--muted); }
+
+.week--free .week-status,
+.week--mine .week-status {
+  font-weight: 600;
+  color: var(--pine);
+}
+
+.week-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 1rem;
+  margin-block-start: auto;
+  padding-block-start: 0.35rem;
+}
+
+.tag {
+  align-self: start;
+  padding-inline: 0.6rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--ink);
+  background: color-mix(in oklch, var(--ink) 10%, transparent);
+  border-radius: 99rem;
+}
+
+.tag--draw { background: var(--gold); }
+
+.person { font-weight: 600; }
+
+/* For the office manager */
+
+.panel {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1.25rem;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+
+.draw-list {
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  list-style: none;
+}
+
+.draw-list li {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding-block: 1rem;
+  border-block-start: 1px solid var(--line);
+}
+
+.draw-list-title {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  column-gap: 0.75rem;
+}
+
+.draw-list-title strong { font-size: 1.15rem; }
+.draw-list-title span { color: var(--muted); }
+
+.row-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 0.75rem;
+}
+
+.fields {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  max-inline-size: 28rem;
+}
+
+.fields label {
+  font-weight: 600;
+  margin-block-start: 0.5rem;
+}
+
+.fields .button {
+  align-self: start;
+  margin-block-start: 0.75rem;
+}
+
+.optional {
+  font-weight: 400;
+  color: var(--muted);
+}
+
+/* The draw: a stage for the big screen */
+
+.stage {
+  display: grid;
+  color: var(--snow);
+  background:
+    radial-gradient(120% 70% at 50% 0%, color-mix(in oklch, var(--night), oklch(60% 0.13 265) 35%), transparent 70%)
+    var(--night);
+}
+
+.draw {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  inline-size: min(100%, 72rem);
+  margin-inline: auto;
+  padding-block: clamp(1.5rem, 1rem + 3vw, 4rem);
+  padding-inline: 1rem;
+  text-align: center;
+}
+
+.draw-kicker,
+.winner-lead {
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+.draw h1 {
+  font-size: clamp(2.5rem, 1.6rem + 5vw, 5.5rem);
+  line-height: 1.05;
+}
+
+.draw-when,
+.draw-empty {
+  font-size: 1.2rem;
+  color: color-mix(in oklch, var(--snow) 80%, var(--night));
+}
+
+.stage .message {
+  color: var(--snow);
+  text-align: start;
+  background: color-mix(in oklch, var(--cabin) 40%, transparent);
+}
+
+.tickets {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+  padding: 0;
+  margin-block: 1.5rem;
+  list-style: none;
+}
+
+.ticket {
+  padding-block: 0.7rem;
+  padding-inline: 1.3rem;
+  font-size: clamp(1.05rem, 0.9rem + 0.8vw, 1.6rem);
+  font-weight: 600;
+  color: var(--ink);
+  background: var(--snow);
+  border-inline-start: 0.4rem dotted var(--cabin);
+  border-radius: 0.5rem;
+  box-shadow: 0 0.25rem 0 color-mix(in oklch, var(--night), black 35%);
+}
+
+.is-drawing .ticket:not(.is-lit),
+.is-done .ticket:not(.is-winner) {
+  opacity: 0.45;
+}
+
+.ticket.is-lit,
+.ticket.is-winner {
+  background: var(--gold);
+  box-shadow:
+    0 0 0 0.25rem var(--paper),
+    0 0 2.5rem 0.5rem var(--gold);
+  transform: scale(1.12);
+}
+
+.winner {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding-block: 1.5rem;
+  padding-inline: 2rem;
+  background: color-mix(in oklch, var(--gold) 14%, transparent);
+  border: 2px solid var(--gold);
+  border-radius: 1.25rem;
+}
+
+.winner:focus-visible {
+  outline-color: var(--gold);
+}
+
+.winner-name {
+  font-family: var(--serif);
+  font-size: clamp(2.5rem, 1.5rem + 6vw, 6rem);
+  font-weight: 700;
+  line-height: 1.05;
+}
+
+.winner-when {
+  color: color-mix(in oklch, var(--snow) 80%, var(--night));
+}
+
+.draw-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.draw-count {
+  color: color-mix(in oklch, var(--snow) 80%, var(--night));
+}
+
+.ready {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  min-block-size: 2.75rem;
+  font-size: 1.1rem;
+  cursor: pointer;
+}
+
+.ready input {
+  flex: none;
+  inline-size: 1.5rem;
+  block-size: 1.5rem;
+  min-block-size: 0;
+  padding: 0;
+  accent-color: var(--gold);
+}
+
+.button--draw {
+  --fill: var(--gold);
+  padding-block: 0.8rem;
+  padding-inline: 2.5rem;
+  font-size: clamp(1.25rem, 1.1rem + 0.8vw, 1.75rem);
+  color: var(--ink);
+  box-shadow: 0 0 2rem color-mix(in oklch, var(--gold) 50%, transparent);
+}
+
+.button--draw:active { color: var(--ink); }
+
+.draw-back { margin-block-start: 1.5rem; }
+
+.confetti {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  inline-size: 100%;
+  block-size: 100%;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .winner {
+    animation: arrive 700ms var(--ease-out) both;
+  }
+
+  .ticket.is-winner {
+    animation: land 500ms var(--ease-out) both;
+  }
+}
+
+@keyframes arrive {
+  from {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+}
+
+@keyframes land {
+  from { transform: scale(1.35); }
+  to { transform: scale(1.12); }
+}

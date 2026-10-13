@@ -1,6 +1,6 @@
 # Antakelser
 
-Ragnhild var ikke å få tak i før første versjon ble bygget. Her er det jeg ville ha spurt om, og svaret jeg har bygget etter. Alt kan endres; si fra om det som er feil.
+Gro var ikke å få tak i før første versjon ble bygget. Her er det jeg ville ha spurt om, og svaret jeg har bygget etter. Alt kan endres; si fra om det som er feil.
 
 ## Uker og booking
 

@@ -8,6 +8,18 @@ Hvordan det gikk da vi prøvde selv, står på grenen `main`, med én commit for
 
 ## Hent den
 
+Anbefalt: lag din egen kopi på GitHub, en fork. Da tar du vare på det du gjør, med en pull request for hver ting kunden ber om. Du trenger en konto på GitHub og verktøyet `gh`, logget inn med `gh auth login`.
+
+```
+gh repo fork miles-no/agentisk-koding-hytteboka --clone --default-branch-only
+cd agentisk-koding-hytteboka
+git remote remove upstream
+```
+
+Den siste kommandoen kutter båndet til originalen. Da havner pull requestene dine i din egen kopi, og prøvekjøringen på `main` blir ikke med.
+
+Uten GitHub henter du den slik:
+
 ```
 git clone --branch start --single-branch https://github.com/miles-no/agentisk-koding-hytteboka hytteboka
 cd hytteboka

@@ -1,0 +1,2 @@
+# Line endings stay LF on every machine, Windows too, so a change shows as the lines that changed.
+* text=auto eol=lf

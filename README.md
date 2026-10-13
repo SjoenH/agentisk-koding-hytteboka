@@ -2,7 +2,16 @@
 
 Booking av firmahytta, med trekning om ukene alle vil ha.
 
-Dette er et øvingsprosjekt. Det er bygget av Claude Code fra én melding fra en oppdiktet kunde, som en prøvekjøring av øvelsen i kurset «Agentisk koding». Historikken følger kundens meldinger: én commit for hver ting hun ber om.
+Dette er første utgave, slik Claude Code bygget den fra én melding fra en oppdiktet kunde. I Miles-kurset «Agentisk koding» er det her du begynner: du tar over prosjektet, og kunden kommer tilbake med mer.
+
+Hvordan det gikk da vi prøvde selv, står på grenen `main`, med én commit for hver ting hun ber om. Vent med å se der til du har prøvd.
+
+## Hent den
+
+```
+git clone --branch start --single-branch https://github.com/miles-no/agentisk-koding-hytteboka hytteboka
+cd hytteboka
+```
 
 ## Oppdraget
 
@@ -20,7 +29,7 @@ Rammene var at den skal kjøre på egen maskin med én kommando, uten sky og ute
 npm start
 ```
 
-Åpne så http://localhost:44210. Den er laget og prøvd med Node.js 24, og har ingen avhengigheter.
+Åpne så http://localhost:44210. Den trenger Node.js 20 eller nyere, og har ingen avhengigheter. Den er laget med Node.js 24, og testene går også på 20 og 22.
 
 Testene kjører du med `npm test`.
 
